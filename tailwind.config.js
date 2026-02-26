@@ -7,6 +7,12 @@ export default {
   },
   theme: {
     extend: {
+      spacing: {
+        13: '3.25rem',
+      },
+      fontSize: {
+        md: ['1rem', { lineHeight: '1.5rem' }],
+      },
       colors: {
         border: 'hsl(var(--border))',
         background: 'hsl(var(--background))',

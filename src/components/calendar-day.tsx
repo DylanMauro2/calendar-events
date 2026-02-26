@@ -22,7 +22,7 @@ export function CalendarDay<TData>({
 }: CalendarDayProps<TData>) {
   if (isOutsideMonth) {
     return (
-      <div className="text-muted-foreground p-2 hover:bg-accent/50 h-20 lg:h-27 text-xs">
+      <div className="text-muted-foreground p-2 hover:bg-accent/50 h-20 lg:h-28 text-xs">
         {day.getDate()}
       </div>
     )
@@ -30,7 +30,7 @@ export function CalendarDay<TData>({
 
   return (
     <div
-      className={`p-2 rounded border h-20 lg:h-27 flex flex-col hover:bg-accent/50 ${
+      className={`p-2 rounded border h-20 lg:h-28 flex flex-col hover:bg-accent/50 ${
         isToday ? 'bg-accent/50 border-primary/50' : 'border-transparent'
       }`}
     >

@@ -1,3 +1,5 @@
+import './style.css'
+
 export { default as CalendarEvents } from './components/calendar'
 export { CalendarHeader } from './components/calendar-header'
 export { CalendarWeekHeader } from './components/calendar-week-header'

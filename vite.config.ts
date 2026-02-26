@@ -1,7 +1,25 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+
+/**
+ * Adds `import './style.css'` to the ES module output so consumers
+ * automatically get the styles when they import the library.
+ */
+function injectCSSImport(): Plugin {
+  return {
+    name: 'inject-css-import',
+    apply: 'build',
+    generateBundle(_, bundle) {
+      for (const chunk of Object.values(bundle)) {
+        if (chunk.type === 'chunk' && chunk.fileName === 'calendar-events.js') {
+          chunk.code = `import './style.css';\n${chunk.code}`
+        }
+      }
+    },
+  }
+}
 
 export default defineConfig({
   plugins: [
@@ -13,6 +31,7 @@ export default defineConfig({
       tsconfigPath: './tsconfig.build.json',
       rollupTypes: true,
     }),
+    injectCSSImport(),
   ],
   build: {
     lib: {
@@ -20,6 +39,7 @@ export default defineConfig({
       name: 'CalendarEvents',
       fileName: 'calendar-events',
       formats: ['es', 'cjs'],
+      cssFileName: 'style',
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
