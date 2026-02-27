@@ -148,7 +148,7 @@ export default function CalendarEvents<TData = unknown>({
   }
 
   return (
-    <div className={cn('p-2 border rounded-lg w-full', className)}>
+    <div className={cn('calendar-container', className)}>
       <CalendarHeader
         date={date}
         onPreviousMonth={goToPreviousMonth}
@@ -157,17 +157,17 @@ export default function CalendarEvents<TData = unknown>({
 
       <CalendarWeekHeader />
 
-      <div className="relative">
+      <div className="calendar-body">
         {loading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/90 flex-col gap-2">
+          <div className="calendar-loading-overlay">
             <CalendarAnimatedIcon size={90} className="text-primary" />
-            <p className="text-lg italic text-muted-foreground">
+            <p className="calendar-loading-text">
               Cargando Eventos del Calendario...
             </p>
           </div>
         )}
 
-        <div className="grid grid-cols-7 gap-1">
+        <div className="calendar-grid">
           {previousMonthDays.map((day) => (
             <CalendarDay key={day.toISOString()} day={day} events={[]} isToday={false} isOutsideMonth />
           ))}
