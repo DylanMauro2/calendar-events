@@ -4,7 +4,7 @@ type CalendarWeekHeaderItemProps = {
 
 export function CalendarWeekHeaderItem({ label }: CalendarWeekHeaderItemProps) {
   return (
-    <div className="calendar-week-header-item">
+    <div className="text-muted-foreground px-3 text-xs lg:text-md xl:text-lg truncate calendar-week-header-item">
       {label}
     </div>
   )

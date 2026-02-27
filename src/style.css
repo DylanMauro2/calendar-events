@@ -1,45 +1,46 @@
 /*
- * calendar-events — Default CSS variables (shadcn/ui compatible)
+ * calendar-events — Default CSS variables
  *
- * Override these variables in your own CSS to customize the look.
- * If you already use shadcn/ui, skip this import — your existing
- * variables will be picked up automatically.
+ * Uses --ce-* prefix to avoid conflicts with shadcn/ui or any other
+ * design system that defines --primary, --background, etc.
+ *
+ * If you use shadcn/ui you can still override these by mapping your
+ * variables: --ce-primary: var(--primary);
  */
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --border: 214.3 31.8% 91.4%;
-  --radius: 0.5rem;
+  --ce-background: 0 0% 100%;
+  --ce-foreground: 222.2 84% 4.9%;
+  --ce-primary: 222.2 47.4% 11.2%;
+  --ce-primary-foreground: 210 40% 98%;
+  --ce-secondary: 210 40% 96.1%;
+  --ce-secondary-foreground: 222.2 47.4% 11.2%;
+  --ce-muted: 210 40% 96.1%;
+  --ce-muted-foreground: 215.4 16.3% 46.9%;
+  --ce-accent: 210 40% 96.1%;
+  --ce-accent-foreground: 222.2 47.4% 11.2%;
+  --ce-border: 214.3 31.8% 91.4%;
+  --ce-radius: 0.5rem;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
+  --ce-background: 222.2 84% 4.9%;
+  --ce-foreground: 210 40% 98%;
+  --ce-primary: 210 40% 98%;
+  --ce-primary-foreground: 222.2 47.4% 11.2%;
+  --ce-secondary: 217.2 32.6% 17.5%;
+  --ce-secondary-foreground: 210 40% 98%;
+  --ce-muted: 217.2 32.6% 17.5%;
+  --ce-muted-foreground: 215 20.2% 65.1%;
+  --ce-accent: 217.2 32.6% 17.5%;
+  --ce-accent-foreground: 210 40% 98%;
+  --ce-border: 217.2 32.6% 17.5%;
 }
 
 .calendar-event-item {
   font-size: 0.75rem /* 12px */;
   line-height: 1rem;
   padding: 0.5rem /* 8px */;
-  background-color: hsl(var(--secondary) / 0.2);
   font-weight: 400;
   width: 100%;
   justify-content: flex-start;
@@ -47,12 +48,13 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   text-overflow: ellipsis;
   text-align: start;
-  border-radius: var(--radius);
+  border-radius: var(--ce-radius);
   font-style: italic;
   cursor: pointer;
-  background-color: hsl(var(--secondary) / 0.5);  
+  background-color: hsl(var(--ce-secondary) / 0.5);
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
@@ -62,7 +64,7 @@
   border-radius: 9999px;
   height: 2.5rem /* 40px */;
   width: 2.5rem /* 40px */;
-  background-color: hsl(var(--accent));
+  background-color: hsl(var(--ce-accent));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,13 +86,13 @@
 .calendar-header-date-icon {
   height: 1.75rem /* 28px */;
   width: 1.75rem /* 28px */;
-  color: hsl(var(--primary));
+  color: hsl(var(--ce-primary));
 }
 
 .calendar-header-date-change-icon {
   height: 1.75rem /* 28px */;
   width: 1.75rem /* 28px */;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--ce-muted-foreground));
 }
 
 .calendar-header-container {
@@ -113,13 +115,12 @@
   height: 5rem /* 80px */;
   display: flex;
   flex-direction: column;
-  background-color: hsl(var(--accent) / 0.5);
+  background-color: hsl(var(--ce-accent) / 0.5);
 }
 
-
 .calendar-day-is-today {
-  border-color: hsl(var(--primary) / 0.5);
-  background-color: hsl(var(--accent) / 0.5);
+  border-color: hsl(var(--ce-primary) / 0.5);
+  background-color: hsl(var(--ce-accent) / 0.5);
 }
 
 .calendar-day-is-not-today {
@@ -127,9 +128,9 @@
 }
 
 .calendar-day-is-outside {
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--ce-muted-foreground));
   padding: 0.5rem /* 8px */;
-  background-color: hsl(var(--accent) / 0.5);
+  background-color: hsl(var(--ce-accent) / 0.5);
   height: 5rem /* 80px */;
   font-size: 0.75rem /* 12px */;
   line-height: 1rem /* 16px */;
@@ -158,11 +159,10 @@
   }
 }
 
-
 /* CalendarWeekHeaderItem */
 
 .calendar-week-header-item {
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--ce-muted-foreground));
   padding-left: 0.75rem /* 12px */;
   padding-right: 0.75rem /* 12px */;
   font-size: 0.75rem /* 12px */;
@@ -191,7 +191,7 @@
 .calendar-week-header-container {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  background-color: hsl(var(--primary) / 0.2);
+  background-color: hsl(var(--ce-primary) / 0.2);
   border-radius: 0.25rem /* 4px */;
   height: 3.25rem /* 52px */;
   font-size: 1.125rem /* 18px */;
@@ -205,8 +205,8 @@
 
 .calendar-container {
   padding: 0.5rem /* 8px */;
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
+  border: 1px solid hsl(var(--ce-border));
+  border-radius: var(--ce-radius);
   width: 100%;
 }
 
@@ -221,8 +221,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius);
-  background-color: hsl(var(--background) / 0.9);
+  border-radius: var(--ce-radius);
+  background-color: hsl(var(--ce-background) / 0.9);
   flex-direction: column;
   gap: 0.5rem /* 8px */;
 }
@@ -231,7 +231,7 @@
   font-size: 1.125rem /* 18px */;
   line-height: 1.75rem /* 28px */;
   font-style: italic;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--ce-muted-foreground));
 }
 
 .calendar-grid {
@@ -239,6 +239,3 @@
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0.25rem /* 4px */;
 }
-
-@tailwind base;
-@tailwind utilities;

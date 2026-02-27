@@ -8,27 +8,27 @@ type CalendarHeaderProps = {
 
 export function CalendarHeader({ date, onPreviousMonth, onNextMonth }: CalendarHeaderProps) {
   return (
-    <div className="calendar-header-container">
-      <div className="calendar-header-date-change-container">
+    <div className="flex items-center gap-4 calendar-header-container">
+      <div className="flex items-center gap-2 calendar-header-date-change-container">
         <button
           onClick={onPreviousMonth}
-          className="calendar-header-date-change-button"
+          className="rounded-full size-10 bg-accent flex items-center justify-center transition-all calendar-header-date-change-button"
           aria-label="Mes anterior"
         >
-          <ChevronLeft className="calendar-header-date-change-icon" />
+          <ChevronLeft className="size-7 text-muted-foreground calendar-header-date-change-icon" />
         </button>
 
         <button
           onClick={onNextMonth}
-          className="calendar-header-date-change-button"
+          className="rounded-full size-10 bg-accent flex items-center justify-center transition-all calendar-header-date-change-button"
           aria-label="Mes siguiente"
         >
-          <ChevronRight className="calendar-header-date-change-icon" />
+          <ChevronRight className="size-7 text-muted-foreground calendar-header-date-change-icon" />
         </button>
       </div>
 
-      <p className="calendar-header-date-title">
-        <CalendarIcon className="calendar-header-date-icon" />
+      <p className="flex items-center gap-2 font-medium text-xl capitalize calendar-header-date-title">
+        <CalendarIcon className="size-7 text-primary calendar-header-date-icon" />
         {date.toLocaleDateString('es-CL', {
           month: 'long',
           year: 'numeric',

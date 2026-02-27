@@ -22,7 +22,7 @@ export function CalendarDay<TData>({
 }: CalendarDayProps<TData>) {
   if (isOutsideMonth) {
     return (
-      <div className="calendar-day-is-outside">
+      <div className="text-muted-foreground p-2 bg-accent/50 h-20 lg:h-28 text-xs calendar-day-is-outside">
         {day.getDate()}
       </div>
     )
@@ -30,12 +30,12 @@ export function CalendarDay<TData>({
 
   return (
     <div
-      className={`calendar-day-container ${
-        isToday ? 'calendar-day-is-today' : 'calendar-day-is-not-today'
+      className={`p-2 rounded h-20 lg:h-28 flex flex-col bg-accent/50 border calendar-day-container ${
+        isToday ? 'border-primary/50 calendar-day-is-today' : 'border-transparent calendar-day-is-not-today'
       }`}
     >
-      <div className="calendar-day-number">{day.getDate()}</div>
-      <div className="calendar-day-list space-y-1">
+      <div className="font-medium text-xs calendar-day-number">{day.getDate()}</div>
+      <div className="mt-1 flex-1 overflow-y-auto p-1 space-y-1 calendar-day-event-list">
         {events.map((event) =>
           renderEvent ? (
             <div key={event.id}>{renderEvent(event)}</div>

@@ -8,7 +8,7 @@ type CalendarEventItemProps<TData> = {
 export function CalendarEventItem<TData>({ event, onClickEvent }: CalendarEventItemProps<TData>) {
   return (
     <button
-      className="calendar-event-item"
+      className="text-xs p-2 bg-secondary/50 w-full justify-start line-clamp-2 text-start rounded-lg italic cursor-pointer transition-all calendar-event-item"
       onClick={() => onClickEvent?.(event)}
     >
       {event.title}
