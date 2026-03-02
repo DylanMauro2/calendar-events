@@ -1,6 +1,6 @@
 # calendar-events
 
-A lightweight, customizable React calendar component with event support. Built with TypeScript and Tailwind CSS, featuring generic typed events, render props for full control over event display, a loading state with an animated SVG icon, and seamless dark mode via CSS variables (shadcn/ui compatible).
+A lightweight, customizable React calendar component with event support. Built with TypeScript and native CSS, featuring generic typed events, render props for full control over event display, a loading state with an animated SVG icon, and seamless dark mode via CSS variables.
 
 ## Features
 
@@ -8,13 +8,15 @@ A lightweight, customizable React calendar component with event support. Built w
 - **Render props** — fully control how each event is rendered inside a day cell
 - **Loading state** — built-in animated calendar icon overlay while fetching data
 - **Dark mode** — works out of the box with a `.dark` class using CSS custom properties
-- **shadcn/ui compatible** — uses the same CSS variable conventions, so it slots into any shadcn/ui project with no extra configuration
+- **No framework dependencies** — uses native CSS with `--ce-*` prefixed variables, compatible with any design system
 - **Modular** — all sub-components are exported individually so you can compose your own layout
 
 ## Installation
 
 ```bash
 npm install calendar-events
+# or
+pnpm add calendar-events
 ```
 
 **Peer dependencies** (install if not already present):
@@ -22,6 +24,31 @@ npm install calendar-events
 ```bash
 npm install react react-dom
 ```
+
+## Color palette setup
+
+After installing, run the following command to choose a color palette for your project:
+
+```bash
+npm exec calendar-events
+# or
+pnpm exec calendar-events
+```
+
+This interactive CLI will ask you to pick a **color** and a **shade**, then automatically write the selected values into the `dist/style.css` file.
+
+**Available colors:**
+
+| # | Color | Description |
+|---|-------|-------------|
+| 1 | `verde` | Green |
+| 2 | `rojo` | Red |
+| 3 | `amarillo` | Yellow |
+| 4 | `morado` | Purple |
+| 5 | `azul` | Blue |
+| 6 | `naranja` | Orange |
+
+**Available shades:** `claro` (light) · `medio` (medium) · `oscuro` (dark)
 
 ## Usage
 
@@ -32,8 +59,6 @@ Import the CSS once at the root of your app (e.g. `main.tsx` or `layout.tsx`):
 ```tsx
 import 'calendar-events/style.css'
 ```
-
-> **Already using shadcn/ui?** Skip this import — your existing CSS variables are already compatible.
 
 ### 2. Use the component
 
@@ -112,8 +137,15 @@ Use the `renderEvent` prop to replace the default event pill with anything you w
   events={events}
   renderEvent={(event) => (
     <span
-      className="block rounded px-2 py-0.5 text-xs text-white truncate"
-      style={{ backgroundColor: event.data?.color }}
+      style={{
+        display: 'block',
+        borderRadius: '4px',
+        padding: '2px 8px',
+        fontSize: '0.75rem',
+        color: 'white',
+        overflow: 'hidden',
+        backgroundColor: event.data?.color,
+      }}
     >
       {event.title}
     </span>
@@ -163,18 +195,29 @@ The library styles are built on CSS custom properties. If you imported `calendar
 
 ```css
 :root {
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --border: 214.3 31.8% 91.4%;
-  --background: 0 0% 100%;
-  --radius: 0.5rem;
+  --ce-background: 0 0% 100%;
+  --ce-foreground: 222.2 84% 4.9%;
+  --ce-primary: 222.2 47.4% 11.2%;
+  --ce-primary-foreground: 210 40% 98%;
+  --ce-secondary: 210 40% 96.1%;
+  --ce-muted-foreground: 215.4 16.3% 46.9%;
+  --ce-accent: 210 40% 96.1%;
+  --ce-border: 214.3 31.8% 91.4%;
+  --ce-radius: 0.5rem;
 }
 ```
 
-Values follow the `H S% L%` HSL format (no `hsl()` wrapper) so Tailwind's opacity modifier syntax works correctly.
+Values follow the `H S% L%` HSL format (no `hsl()` wrapper).
+
+If you use shadcn/ui, you can map your existing variables:
+
+```css
+:root {
+  --ce-primary: var(--primary);
+  --ce-border: var(--border);
+  /* etc. */
+}
+```
 
 ## Dark mode
 

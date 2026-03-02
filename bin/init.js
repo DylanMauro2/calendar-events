@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { createInterface } from 'readline'
-import { readFileSync, writeFileSync, existsSync, createReadStream, createWriteStream } from 'fs'
+import { intro, outro, select, spinner, isCancel, cancel } from '@clack/prompts'
+import { readFileSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -35,7 +35,7 @@ const PALETTES = {
   },
   naranja: {
     claro:  { primary: '24 90% 63%',  secondary: '24 55% 93%', accent: '24 55% 94%', 'muted-foreground': '24 20% 55%', border: '24 35% 84%' },
-    medio:  { primary: '24 100% 50%', secondary: '24 45% 90%', accent: '24 45% 91%', 'muted-foreground': '24 15% 50%', border: '24 25% 80%' },
+    medio:  { primary: '24 100% 50%', secondary: '24 45% 90%', accent: '24 45% 91%', 'muted-foreground': '24 15% 50%', border: '24 15% 76%' },
     oscuro: { primary: '24 100% 36%', secondary: '24 30% 87%', accent: '24 30% 88%', 'muted-foreground': '24 10% 45%', border: '24 15% 76%' },
   },
 }
@@ -43,61 +43,34 @@ const PALETTES = {
 const COLOR_OPTIONS = ['verde', 'rojo', 'amarillo', 'morado', 'azul', 'naranja']
 const SHADE_OPTIONS = ['claro', 'medio', 'oscuro']
 
-function openTTY() {
-  // When npm/pnpm pipes stdin, we open /dev/tty directly to get
-  // an interactive terminal regardless of how the script was spawned.
-  if (process.stdin.isTTY) {
-    return { input: process.stdin, output: process.stdout }
-  }
-  if (!existsSync('/dev/tty')) return null
-  try {
-    return {
-      input: createReadStream('/dev/tty'),
-      output: createWriteStream('/dev/tty'),
-    }
-  } catch {
-    return null
-  }
-}
-
-function ask(rl, prompt) {
-  return new Promise(resolve => rl.question(prompt, resolve))
-}
-
 async function main() {
-  const tty = openTTY()
-  if (!tty) process.exit(0) // CI/CD — skip setup silently
+  // Salir silenciosamente en CI/CD (sin TTY)
+  if (!process.stdout.isTTY) process.exit(0)
 
-  const rl = createInterface(tty)
+  intro('calendar-events — Setup de color')
 
-  tty.output.write('\ncalendar-events setup\n\n')
+  const colorKey = await select({
+    message: 'Selecciona una paleta de colores:',
+    options: COLOR_OPTIONS.map(c => ({ value: c, label: c })),
+  })
 
-  tty.output.write('Selecciona una paleta de colores:\n')
-  COLOR_OPTIONS.forEach((color, i) => tty.output.write(`  ${i + 1}. ${color}\n`))
-
-  const colorAnswer = (await ask(rl, '\nColor (1-6): ')).trim()
-  const colorKey = COLOR_OPTIONS[parseInt(colorAnswer) - 1]
-
-  if (!colorKey) {
-    tty.output.write('Seleccion invalida.\n')
-    rl.close()
-    process.exit(1)
+  if (isCancel(colorKey)) {
+    cancel('Setup cancelado.')
+    process.exit(0)
   }
 
-  tty.output.write(`\nSelecciona un tono para ${colorKey}:\n`)
-  tty.output.write('  1. Claro\n')
-  tty.output.write('  2. Medio\n')
-  tty.output.write('  3. Oscuro\n')
+  const shadeKey = await select({
+    message: `Selecciona un tono para ${colorKey.toLocaleUpperCase()}:`,
+    options: SHADE_OPTIONS.map(s => ({ value: s, label: s })),
+  })
 
-  const shadeAnswer = (await ask(rl, '\nTono (1-3): ')).trim()
-  const shadeKey = SHADE_OPTIONS[parseInt(shadeAnswer) - 1]
-
-  rl.close()
-
-  if (!shadeKey) {
-    tty.output.write('Seleccion invalida.\n')
-    process.exit(1)
+  if (isCancel(shadeKey)) {
+    cancel('Setup cancelado.')
+    process.exit(0)
   }
+
+  const s = spinner()
+  s.start('Aplicando paleta...')
 
   const palette = PALETTES[colorKey][shadeKey]
   const cssPath = join(__dirname, '..', 'dist', 'style.css')
@@ -112,7 +85,8 @@ async function main() {
 
   writeFileSync(cssPath, css)
 
-  tty.output.write(`\nPaleta aplicada: ${colorKey} ${shadeKey}\n`)
+  s.stop('Paleta aplicada.')
+  outro(`${colorKey} ${shadeKey} — listo!`)
 }
 
 main()
